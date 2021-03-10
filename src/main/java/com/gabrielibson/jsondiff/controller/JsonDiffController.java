@@ -1,7 +1,6 @@
 package com.gabrielibson.jsondiff.controller;
 
 import com.gabrielibson.jsondiff.dto.DiffDTO;
-import com.gabrielibson.jsondiff.exception.ElementNotFoundException;
 import com.gabrielibson.jsondiff.model.Diff;
 import com.gabrielibson.jsondiff.service.JsonDiffRestService;
 import com.gabrielibson.jsondiff.service.JsonDiffService;
@@ -10,18 +9,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.NoSuchElementException;
-import java.util.Objects;
-
 @RestController
 @RequestMapping(("/v1/diff"))
 public class JsonDiffController {
 
-    @Autowired
     private JsonDiffRestService restService;
 
     @Autowired
     private JsonDiffService diffService;
+
+    @Autowired
+    public JsonDiffController(JsonDiffRestService restService) {
+        this.restService = restService;
+    }
 
     @PostMapping(value = "/{id}/left")
     public ResponseEntity<Void> saveLeft(@PathVariable String id, @RequestBody byte[] data) {
