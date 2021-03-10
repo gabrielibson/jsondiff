@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class JsonDiffServiceImplTest {
     @Test
     public void diffBetweenEquals() {
         String something = "Something";
-        Diff diff = diffService.processDiff(ID, something, something);
+        Diff diff = diffService.processDiff(getDiffToBeProcessed(ID, something, something));
 
         Assertions.assertEquals(DiffStatus.EQUAL.getStatus(), diff.getStatus());
     }
@@ -42,7 +41,7 @@ public class JsonDiffServiceImplTest {
     public void diffBetweenDifferentSizes() {
         String left = "Something";
         String right = "Something else";
-        Diff diff = diffService.processDiff(ID, left, right);
+        Diff diff = diffService.processDiff(getDiffToBeProcessed(ID, left, right));
 
         Assertions.assertEquals(DiffStatus.NOT_EQUAL_SIZES.getStatus(), diff.getStatus());
     }
@@ -51,8 +50,6 @@ public class JsonDiffServiceImplTest {
     public void diffBetweenSameSizeAndNotEquals() {
         String left = "SomethingElse";
         String right = "SomethingAbcd";
-
-        Diff diff = diffService.processDiff(ID, left, right);
 
         List<Difference> differences = Collections.singletonList(new Difference(9, 9 + 4, 4));
 
@@ -63,8 +60,10 @@ public class JsonDiffServiceImplTest {
 
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(expected);
 
-        Difference differenceExpected = expected.getDifferences().get(0);
+        Diff diff = diffService.processDiff(getDiffToBeProcessed(ID, left, right));
         Difference differenceResult = diff.getDifferences().get(0);
+
+        Difference differenceExpected = expected.getDifferences().get(0);
 
         Assertions.assertEquals(ID, diff.getId());
         Assertions.assertEquals(DiffStatus.DIFFERENT.getStatus(), diff.getStatus());
@@ -72,5 +71,9 @@ public class JsonDiffServiceImplTest {
         Assertions.assertEquals(differenceExpected.getInitialOffset(), differenceResult.getInitialOffset());
         Assertions.assertEquals(differenceExpected.getFinalOffset(), differenceResult.getFinalOffset());
         Assertions.assertEquals(differenceExpected.getLength(), differenceResult.getLength());
+    }
+
+    private Diff getDiffToBeProcessed(String id, String left, String right) {
+        return Diff.builder().id(ID).left(left).right(right).build();
     }
 }

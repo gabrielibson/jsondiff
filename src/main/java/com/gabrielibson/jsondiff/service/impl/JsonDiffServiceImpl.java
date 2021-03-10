@@ -21,16 +21,19 @@ public class JsonDiffServiceImpl implements JsonDiffService {
     @Autowired
     JsonDiffRepository repository;
 
-    public Diff processDiff(String id, String left, String right) {
-        Diff.DiffBuilder diffBuilder = Diff.builder().id(id).left(left).right(right);
+    public Diff processDiff(Diff diffToBeProcessed) {
+        Diff.DiffBuilder diffBuilder = Diff.builder()
+                .id(diffToBeProcessed.getId())
+                .left(diffToBeProcessed.getLeft())
+                .right(diffToBeProcessed.getRight());
 
-        if(left.equals(right)){
+        if(diffToBeProcessed.getLeft().equals(diffToBeProcessed.getRight())){
             diffBuilder.status(DiffStatus.EQUAL.getStatus());
-            return diffBuilder.build();
+            return repository.save(diffBuilder.build());
         }
-        if(left.length() != right.length()){
+        if(diffToBeProcessed.getLeft().length() != diffToBeProcessed.getRight().length()){
             diffBuilder.status(DiffStatus.NOT_EQUAL_SIZES.getStatus());
-            return diffBuilder.build();
+            return repository.save(diffBuilder.build());
         }
 
         long initialOffset = 0;
@@ -40,8 +43,8 @@ public class JsonDiffServiceImpl implements JsonDiffService {
 
         List<Difference> differences = new ArrayList<>();
 
-        for(int i = 0; i < left.length(); i++) {
-            if(left.charAt(i) != right.charAt(i)) {
+        for(int i = 0; i < diffToBeProcessed.getLeft().length(); i++) {
+            if(diffToBeProcessed.getLeft().charAt(i) != diffToBeProcessed.getRight().charAt(i)) {
                 initialOffset = firstTime? i : initialOffset;
                 length++;
                 firstTime = false;

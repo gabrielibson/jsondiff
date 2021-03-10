@@ -4,5 +4,5 @@ import com.gabrielibson.jsondiff.model.Diff;
 
 public interface JsonDiffService {
 
-    Diff processDiff(String id, String left, String right);
+    Diff processDiff(Diff diffToBeProcessed);
 }
