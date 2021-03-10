@@ -1,9 +1,10 @@
-package com.gabrielibson.jsondiff.service;
+package com.gabrielibson.jsondiff.service.impl;
 
 import com.gabrielibson.jsondiff.enums.DiffStatus;
 import com.gabrielibson.jsondiff.model.Diff;
 import com.gabrielibson.jsondiff.model.Difference;
 import com.gabrielibson.jsondiff.repository.JsonDiffRepository;
+import com.gabrielibson.jsondiff.service.JsonDiffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 
 @Service
-public class JsonDiffServiceImpl implements JsonDiffService{
+public class JsonDiffServiceImpl implements JsonDiffService {
 
     @Autowired
     JsonDiffRepository repository;

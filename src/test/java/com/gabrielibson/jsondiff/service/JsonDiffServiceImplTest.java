@@ -4,6 +4,7 @@ import com.gabrielibson.jsondiff.enums.DiffStatus;
 import com.gabrielibson.jsondiff.model.Diff;
 import com.gabrielibson.jsondiff.model.Difference;
 import com.gabrielibson.jsondiff.repository.JsonDiffRepository;
+import com.gabrielibson.jsondiff.service.impl.JsonDiffServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -52,7 +54,7 @@ public class JsonDiffServiceImplTest {
 
         Diff diff = diffService.processDiff(ID, left, right);
 
-        List<Difference> differences = Arrays.asList(new Difference(9, 9 + 4, 4));
+        List<Difference> differences = Collections.singletonList(new Difference(9, 9 + 4, 4));
 
         Diff expected = Diff.builder().id(ID)
                 .left(left).right(right).status(DiffStatus.DIFFERENT.getStatus())
