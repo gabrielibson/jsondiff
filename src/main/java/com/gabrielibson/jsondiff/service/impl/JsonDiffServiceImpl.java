@@ -18,9 +18,6 @@ import java.util.List;
 @Service
 public class JsonDiffServiceImpl implements JsonDiffService {
 
-    @Autowired
-    JsonDiffRepository repository;
-
     public Diff processDiff(Diff diffToBeProcessed) {
         Diff.DiffBuilder diffBuilder = Diff.builder()
                 .id(diffToBeProcessed.getId())
@@ -29,11 +26,11 @@ public class JsonDiffServiceImpl implements JsonDiffService {
 
         if(diffToBeProcessed.getLeft().equals(diffToBeProcessed.getRight())){
             diffBuilder.status(DiffStatus.EQUAL.getStatus());
-            return repository.save(diffBuilder.build());
+            return diffBuilder.build();
         }
         if(diffToBeProcessed.getLeft().length() != diffToBeProcessed.getRight().length()){
             diffBuilder.status(DiffStatus.NOT_EQUAL_SIZES.getStatus());
-            return repository.save(diffBuilder.build());
+            return diffBuilder.build();
         }
 
         long initialOffset = 0;
@@ -66,7 +63,7 @@ public class JsonDiffServiceImpl implements JsonDiffService {
         diffBuilder.status(DiffStatus.DIFFERENT.getStatus());
         diffBuilder.differences(differences);
 
-        return repository.save(diffBuilder.build());
+        return diffBuilder.build();
     }
 
     private void addDifference(long initialOffset, long length, List<Difference> differences) {

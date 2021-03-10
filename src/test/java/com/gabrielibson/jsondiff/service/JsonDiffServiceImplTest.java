@@ -27,8 +27,6 @@ public class JsonDiffServiceImplTest {
     @Autowired
     private JsonDiffServiceImpl diffService;
 
-    private JsonDiffRepository repository = Mockito.mock(JsonDiffRepository.class);
-
     @Test
     public void diffBetweenEquals() {
         String something = "Something";
@@ -57,8 +55,6 @@ public class JsonDiffServiceImplTest {
                 .left(left).right(right).status(DiffStatus.DIFFERENT.getStatus())
                 .differences(differences)
                 .build();
-
-        Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(expected);
 
         Diff diff = diffService.processDiff(getDiffToBeProcessed(ID, left, right));
         Difference differenceResult = diff.getDifferences().get(0);
