@@ -37,7 +37,7 @@ public class SpringFoxConfig extends WebMvcConfigurationSupport {
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
                 .title("Spring Boot REST API")
-                .description("\"Spring Boot REST API for saving json Base64 encoded files and to get diffs between them.\"")
+                .description("\"Spring Boot REST API for saving Base64 encoded json files and obtaining differences between them.\"")
                 .version("1.0.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
