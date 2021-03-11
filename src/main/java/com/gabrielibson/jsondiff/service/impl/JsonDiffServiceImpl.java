@@ -3,9 +3,7 @@ package com.gabrielibson.jsondiff.service.impl;
 import com.gabrielibson.jsondiff.enums.DiffStatus;
 import com.gabrielibson.jsondiff.model.Diff;
 import com.gabrielibson.jsondiff.model.Difference;
-import com.gabrielibson.jsondiff.repository.JsonDiffRepository;
 import com.gabrielibson.jsondiff.service.JsonDiffService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,15 +22,22 @@ public class JsonDiffServiceImpl implements JsonDiffService {
                 .left(diffToBeProcessed.getLeft())
                 .right(diffToBeProcessed.getRight());
 
-        if(diffToBeProcessed.getLeft().equals(diffToBeProcessed.getRight())){
-            diffBuilder.status(DiffStatus.EQUAL.getStatus());
-            return diffBuilder.build();
-        }
-        if(diffToBeProcessed.getLeft().length() != diffToBeProcessed.getRight().length()){
-            diffBuilder.status(DiffStatus.NOT_EQUAL_SIZES.getStatus());
-            return diffBuilder.build();
-        }
+        if (isEqualOrOfEqualSizes(diffToBeProcessed, diffBuilder)) return diffBuilder.build();
 
+        List<Difference> differences = getDifferences(diffToBeProcessed);
+
+        diffBuilder.status(DiffStatus.DIFFERENT.getStatus());
+        diffBuilder.differences(differences);
+
+        return diffBuilder.build();
+    }
+
+    private void addDifference(long initialOffset, long length, List<Difference> differences) {
+        Difference difference = new Difference(initialOffset, initialOffset + length, length);
+        differences.add(difference);
+    }
+
+    private List<Difference> getDifferences(Diff diffToBeProcessed) {
         long initialOffset = 0;
         long length = 0;
         boolean firstTime = true;
@@ -59,15 +64,18 @@ public class JsonDiffServiceImpl implements JsonDiffService {
         if(isDifferent){
             this.addDifference(initialOffset, length, differences);
         }
-
-        diffBuilder.status(DiffStatus.DIFFERENT.getStatus());
-        diffBuilder.differences(differences);
-
-        return diffBuilder.build();
+        return differences;
     }
 
-    private void addDifference(long initialOffset, long length, List<Difference> differences) {
-        Difference difference = new Difference(initialOffset, initialOffset + length, length);
-        differences.add(difference);
+    private boolean isEqualOrOfEqualSizes(Diff diffToBeProcessed, Diff.DiffBuilder diffBuilder) {
+        if(diffToBeProcessed.getLeft().equals(diffToBeProcessed.getRight())){
+            diffBuilder.status(DiffStatus.EQUAL.getStatus());
+            return true;
+        }
+        if(diffToBeProcessed.getLeft().length() != diffToBeProcessed.getRight().length()){
+            diffBuilder.status(DiffStatus.NOT_EQUAL_SIZES.getStatus());
+            return true;
+        }
+        return false;
     }
 }
