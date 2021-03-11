@@ -66,7 +66,7 @@ public class JsonDiffRestServiceImpl implements JsonDiffRestService {
                     .build();
             this.save(diffToBeSaved, DiffSide.RIGHT);
         }catch(ElementNotFoundException enf) {
-            Diff diff = Diff.builder().id(id).left(data).build();
+            Diff diff = Diff.builder().id(id).right(data).build();
             this.save(diff, DiffSide.RIGHT);
         }
     }

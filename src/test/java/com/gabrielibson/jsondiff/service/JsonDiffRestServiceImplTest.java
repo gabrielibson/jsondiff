@@ -48,8 +48,8 @@ public class JsonDiffRestServiceImplTest {
 
     @Test
     public void testSaveLeftSuccessfully() {
-        restService.saveRight(ID, LEFT);
-        Mockito.verify(restService).saveRight(ID, LEFT);
+        restService.saveLeft(ID, LEFT);
+        Mockito.verify(restService).saveLeft(ID, LEFT);
     }
 
     @Test
