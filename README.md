@@ -12,7 +12,7 @@ Spring Boot REST API for saving Base64 encoded json files and obtaining differen
 *   [Lombok](https://projectlombok.org/) - for helping with the boilerplate code on POJO objects
 *   [Docker](https://www.docker.com/) - for containerizing the solution
 * 	[git](https://git-scm.com/) - Free and Open-Source distributed version control system
-* 	[Swagger](https://swagger.io/) - Open-Source software framework backed by a large ecosystem of tools that helps developers design, build, document, and consume RESTful Web services.
+* 	[Swagger](https://swagger.io/) - Open-Source software framework backed by a large ecosystem of tools that helps developers design, build, document, and consume RESTFUL Web services.
 *   [JUnit 5](https://junit.org/junit5/) - Unit tests.
 
 ## Running application
@@ -42,9 +42,15 @@ The application can be executed in two ways:
 ./gradlew test
 ```
 
+## Opportunities of improvement
+
+* Add an async diff processing for scalability
+* Improve debug logs
+* Test hypothesis with a relational database for lesser interactions with data layer
+
 ## External Tools Used
 
-* [Postman](https://www.getpostman.com/) - API Development Environment (Testing Docmentation)
+* [Postman](https://www.getpostman.com/) - API Development Environment (Testing Documentation)
 
 ## Documentation
 
