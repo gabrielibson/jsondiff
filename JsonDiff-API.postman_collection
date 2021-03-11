@@ -1,0 +1,92 @@
+{
+	"id": "8e9d3452-3dc4-5d0b-02ff-01fb2cbebb64",
+	"name": "JsonDiff API",
+	"description": "",
+	"order": [
+		"66c70699-97df-64b6-4787-d6514407749b",
+		"47c58da0-babe-fec5-fa37-ece33dc028a4",
+		"15e15afc-d324-e6de-a6ed-e12c1f5c02fd"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1615333671558,
+	"owner": "1520549",
+	"public": false,
+	"requests": [
+		{
+			"id": "15e15afc-d324-e6de-a6ed-e12c1f5c02fd",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:8080/v1/diff/json-file/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1615406399148,
+			"name": "Get Diff",
+			"description": "",
+			"collectionId": "8e9d3452-3dc4-5d0b-02ff-01fb2cbebb64",
+			"responses": []
+		},
+		{
+			"id": "47c58da0-babe-fec5-fa37-ece33dc028a4",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:8080/v1/diff/json-file/right",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "binary",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1615339805217,
+			"name": "Save Right",
+			"description": "",
+			"collectionId": "8e9d3452-3dc4-5d0b-02ff-01fb2cbebb64",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
+			"id": "66c70699-97df-64b6-4787-d6514407749b",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/v1/diff/json-file/left",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "binary",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1615406391287,
+			"name": "Save Left",
+			"description": "",
+			"collectionId": "8e9d3452-3dc4-5d0b-02ff-01fb2cbebb64",
+			"responses": [],
+			"rawModeData": ""
+		}
+	]
+}
