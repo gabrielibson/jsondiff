@@ -4,6 +4,8 @@ import com.gabrielibson.jsondiff.enums.DiffStatus;
 import com.gabrielibson.jsondiff.model.Diff;
 import com.gabrielibson.jsondiff.model.Difference;
 import com.gabrielibson.jsondiff.service.JsonDiffService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,12 +20,16 @@ import java.util.List;
 @Service
 public class JsonDiffServiceImpl implements JsonDiffService {
 
+    private static final Logger logger = LoggerFactory.getLogger(JsonDiffServiceImpl.class);
+
     /**
      * Process diff to get differences between left and right sides
      * @param diffToBeProcessed - diff to be processed
      * @return diff result
      */
     public Diff processDiff(Diff diffToBeProcessed) {
+        logger.info("Starting diff processing for diff id {}", diffToBeProcessed.getId());
+
         Diff.DiffBuilder diffBuilder = Diff.builder()
                 .id(diffToBeProcessed.getId())
                 .left(diffToBeProcessed.getLeft())

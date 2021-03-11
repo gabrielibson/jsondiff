@@ -7,6 +7,8 @@ import com.gabrielibson.jsondiff.model.Diff;
 import com.gabrielibson.jsondiff.repository.JsonDiffRepository;
 import com.gabrielibson.jsondiff.service.JsonDiffRestService;
 import com.gabrielibson.jsondiff.service.JsonDiffService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import java.util.Objects;
 @Service
 public class JsonDiffRestServiceImpl implements JsonDiffRestService {
 
+    private static final Logger logger = LoggerFactory.getLogger(JsonDiffRestServiceImpl.class);
+
     @Autowired
     private JsonDiffRepository repository;
 
@@ -35,6 +39,7 @@ public class JsonDiffRestServiceImpl implements JsonDiffRestService {
      */
     @Override
     public String convertByteArrayToString(byte[] data) {
+        logger.info("Converting body data");
         try {
             return new String(Base64.getDecoder().decode(data));
         }catch(IllegalArgumentException iae) {
@@ -104,6 +109,8 @@ public class JsonDiffRestServiceImpl implements JsonDiffRestService {
      * @param side - Specify which side is being saved
      */
     private void save(Diff diff, DiffSide side) {
+        logger.info("Saving {} side for id {}", side, diff.getId());
+
         Diff savedDiff = this.repository.save(diff);
         if(side.equals(DiffSide.RIGHT) && savedDiff.getLeft() != null
             || side.equals(DiffSide.LEFT) && savedDiff.getRight() != null) {
