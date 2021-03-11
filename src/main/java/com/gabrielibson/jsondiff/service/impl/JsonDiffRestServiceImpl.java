@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.Base64;
 import java.util.Objects;
 
+/**
+ * Class to hold business logic regarding to rest operations
+ *
+ * @author Gabriel Ibson
+ */
+
 @Service
 public class JsonDiffRestServiceImpl implements JsonDiffRestService {
 
@@ -22,6 +28,11 @@ public class JsonDiffRestServiceImpl implements JsonDiffRestService {
     @Autowired
     private JsonDiffService diffService;
 
+    /**
+     * Convert Base64 encoded byte array into string format
+     * @param data - Data to be converted
+     * @return string result
+     */
     @Override
     public String convertByteArrayToString(byte[] data) {
         try {
@@ -31,6 +42,12 @@ public class JsonDiffRestServiceImpl implements JsonDiffRestService {
         }
     }
 
+    /**
+     * Get diff by json file id
+     * @param id - json file id
+     * @return Diff - Document element from data source
+     * @throws ElementNotFoundException - if id is not found
+     */
     @Override
     public Diff getById(String id) {
         if(Objects.isNull(id)){
@@ -39,6 +56,11 @@ public class JsonDiffRestServiceImpl implements JsonDiffRestService {
         return this.repository.findById(id).orElseThrow(() -> new ElementNotFoundException(id));
     }
 
+    /**
+     * Save json data left side
+     * @param id - json file id
+     * @param data - Base64 encoded json file content
+     */
     @Override
     public void saveLeft(String id, String data) {
         try {
@@ -55,6 +77,11 @@ public class JsonDiffRestServiceImpl implements JsonDiffRestService {
         }
     }
 
+    /**
+     * Save json data right side
+     * @param id - json file id
+     * @param data - Base64 encoded json file content
+     */
     @Override
     public void saveRight(String id, String data) {
         try {
@@ -71,6 +98,11 @@ public class JsonDiffRestServiceImpl implements JsonDiffRestService {
         }
     }
 
+    /**
+     * Verify both sides are informed, if so, process diff between them and save diff result
+     * @param diff - Diff to be saved and processed
+     * @param side - Specify which side is being saved
+     */
     private void save(Diff diff, DiffSide side) {
         Diff savedDiff = this.repository.save(diff);
         if(side.equals(DiffSide.RIGHT) && savedDiff.getLeft() != null
