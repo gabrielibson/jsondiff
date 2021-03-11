@@ -1,0 +1,26 @@
+version: "3"
+services:
+  springboot:
+    build: .
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/jsondiff
+    container_name: jsondiff
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    networks:
+      - spring-mongo-net
+  mongo:
+    image: mongo
+    container_name: jsondiff-mongodb
+    ports:
+      - 27017:27017
+    command: mongod --logpath=/dev/null # --quiet
+    networks:
+      - spring-mongo-net
+networks:
+  spring-mongo-net:
+    driver: bridge
