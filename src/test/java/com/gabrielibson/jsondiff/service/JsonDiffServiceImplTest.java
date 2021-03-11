@@ -3,12 +3,9 @@ package com.gabrielibson.jsondiff.service;
 import com.gabrielibson.jsondiff.enums.DiffStatus;
 import com.gabrielibson.jsondiff.model.Diff;
 import com.gabrielibson.jsondiff.model.Difference;
-import com.gabrielibson.jsondiff.repository.JsonDiffRepository;
 import com.gabrielibson.jsondiff.service.impl.JsonDiffServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -30,7 +27,7 @@ public class JsonDiffServiceImplTest {
     @Test
     public void diffBetweenEquals() {
         String something = "Something";
-        Diff diff = diffService.processDiff(getDiffToBeProcessed(ID, something, something));
+        Diff diff = diffService.processDiff(getDiffToBeProcessed(something, something));
 
         Assertions.assertEquals(DiffStatus.EQUAL.getStatus(), diff.getStatus());
     }
@@ -39,7 +36,7 @@ public class JsonDiffServiceImplTest {
     public void diffBetweenDifferentSizes() {
         String left = "Something";
         String right = "Something else";
-        Diff diff = diffService.processDiff(getDiffToBeProcessed(ID, left, right));
+        Diff diff = diffService.processDiff(getDiffToBeProcessed(left, right));
 
         Assertions.assertEquals(DiffStatus.NOT_EQUAL_SIZES.getStatus(), diff.getStatus());
     }
@@ -56,7 +53,7 @@ public class JsonDiffServiceImplTest {
                 .differences(differences)
                 .build();
 
-        Diff diff = diffService.processDiff(getDiffToBeProcessed(ID, left, right));
+        Diff diff = diffService.processDiff(getDiffToBeProcessed(left, right));
         Difference differenceResult = diff.getDifferences().get(0);
 
         Difference differenceExpected = expected.getDifferences().get(0);
@@ -69,7 +66,7 @@ public class JsonDiffServiceImplTest {
         Assertions.assertEquals(differenceExpected.getLength(), differenceResult.getLength());
     }
 
-    private Diff getDiffToBeProcessed(String id, String left, String right) {
+    private Diff getDiffToBeProcessed(String left, String right) {
         return Diff.builder().id(ID).left(left).right(right).build();
     }
 }
